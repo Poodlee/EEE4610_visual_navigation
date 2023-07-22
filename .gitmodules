@@ -1,0 +1,3 @@
+[submodule "src/rc_car/imu_driver"]
+	path = src/rc_car/imu_driver
+	url = https://github.com/robotpilot/myahrs_driver

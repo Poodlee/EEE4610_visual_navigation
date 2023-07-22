@@ -8,9 +8,10 @@
     <param name="camera_frame_id" value="front_cam" />
     <param name="io_method" value="mmap"/>
   </node>
-  <!-- open image view window -->
-  <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
-    <remap from="image" to="front_cam/image_raw"/>
-    <param name="autosize" value="true" />
+  
+  <!-- launch IMU -->
+  <node pkg="myahrs_driver" type="myahrs_driver" name="myahrs_driver">
+    <param name="port" value="/dev/ttyACM0" />
+    <param name="baud_rate" value="115200" />
   </node>
 </launch>
