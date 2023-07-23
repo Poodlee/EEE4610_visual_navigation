@@ -1,5 +1,0 @@
-rc_car/rc_main
-/home/seongmin/EEE4610_visual_navigation/devel/.private/rc_main/cmake.lock /home/seongmin/EEE4610_visual_navigation/devel/./cmake.lock
-/home/seongmin/EEE4610_visual_navigation/devel/.private/rc_main/lib/pkgconfig/rc_main.pc /home/seongmin/EEE4610_visual_navigation/devel/lib/pkgconfig/rc_main.pc
-/home/seongmin/EEE4610_visual_navigation/devel/.private/rc_main/share/rc_main/cmake/rc_mainConfig.cmake /home/seongmin/EEE4610_visual_navigation/devel/share/rc_main/cmake/rc_mainConfig.cmake
-/home/seongmin/EEE4610_visual_navigation/devel/.private/rc_main/share/rc_main/cmake/rc_mainConfig-version.cmake /home/seongmin/EEE4610_visual_navigation/devel/share/rc_main/cmake/rc_mainConfig-version.cmake
