@@ -2,8 +2,9 @@
 __pycache__/
 
 # ROS build files
-devel/
 build/
+devel/
+logs/
 
-# Video Files
+# Video files
 *.mp4
