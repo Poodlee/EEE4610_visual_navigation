@@ -4,3 +4,7 @@
 [submodule "src/rc_car/svo_pro/rpg_svo_pro_open"]
 	path = src/rc_car/svo_pro/rpg_svo_pro_open
 	url = https://github.com/sungminner/rpg_svo_pro_open
+[submodule "src/rc_car/gtsam"]
+	path = src/rc_car/gtsam
+	url = https://github.com/sungminner/gtsam
+	branch = EEE4610
