@@ -1,15 +1,15 @@
 <!-- Launch File for running svo with ceres backend -->
 <launch>
-  <arg name="calib_file" default="$(find rc_main)/param/cam_calib.yaml"/>
+  <arg name="calib_file" default="$(find rc_main)/param/iphone_calib.yaml"/>
 
   <!-- SVO node -->
   <node pkg="svo_ros" type="svo_node" name="svo" clear_params="true" output="screen" args="--v=0" >
 
     <!-- Camera topic to subscribe to -->
-    <param name="cam0_topic" value="/cam0/image_raw" type="str" />
+    <param name="cam0_topic" value="/front_cam/image_raw" type="str" />
 	
     <!-- Imu topic to subscribe to -->
-    <param name="imu_topic" value="/imu0" type="str" />
+    <param name="imu_topic" value="/imu/data" type="str" />
 
     <!-- Camera calibration file -->
     <param name="calib_file" value="$(arg calib_file)" />
