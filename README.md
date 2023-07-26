@@ -62,6 +62,30 @@ cd ~/EEE4610_visual_navigation
 catkin build
 ```
 
+### 6. Source ROS and workspace setup files
+
+```bash
+source /opt/ros/noetic/setup.bash
+cd ~/EEE4610_visual_navigation
+source devel/setup.bash
+```
+
+Every time you open a new terminal, you have to run the commands above.
+
+Otherwise, you can modify `.bashrc` file.
+
+```bash
+gedit ~/.bashrc
+```
+
+Append the lines below at the end of the file.
+```bash
+source /opt/ros/noetic/setup.bash
+source ~/EEE4610_visual_navigation/devel/setup.bash
+```
+
+`.bashrc` file will automatically execute the commands in it every time you open a new terminal.
+
 ## Usage
 
 On RC car: 
