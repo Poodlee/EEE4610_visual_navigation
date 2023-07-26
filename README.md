@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository is for EEE4610 Electrical and Electronic Engineering Capstone Design @ dept. of Electrical and Electronic Engineering, Yonsei University
+This repository is for EEE4610 Electrical and Electronic Engineering Capstone Design @ dept. of Electrical and Electronic Engineering, Yonsei University.
 
 * Author: **Team Overcoming**
 
@@ -33,7 +33,7 @@ sudo apt-get install libglew-dev libopencv-dev libyaml-cpp-dev
 sudo apt-get install libblas-dev liblapack-dev libsuitesparse-dev
 ```
 
-You perhaps have to install [Ceres Solver] maunally.
+You perhaps have to install [Ceres Solver] manually.
 
 ### 3. SVO_Pro setup
 
@@ -54,18 +54,25 @@ cmake ..
 sudo make install
 ```
 
-You might have to wait for quite considerable time to get it done(~30min). After it finishes, head to `/usr/local/lib` and check if `libgtsam.so` file exists.
+You might have to wait for quite a considerable time to get it done(~30min). After it finishes, head to `/usr/local/lib` and check if `libgtsam.so` file exists.
 
 ### 5. Build entire workspace
+
 ```bash
 cd ~/EEE4610_visual_navigation
 catkin build
 ```
 
-### 6. Source ROS and workspace setup files
+### 6. Modify PATH and source setup files
+
+ROS has no idea where GTSAM is, so you have to add its path(`/usr/local/lib`) to the environment variable. Also, ROS needs `setup.bash` files for ROS itself and the workspace.
 
 ```bash
+# Add PATH
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+# Source setup file for ROS noetic
 source /opt/ros/noetic/setup.bash
+# Source setup file for workspace
 cd ~/EEE4610_visual_navigation
 source devel/setup.bash
 ```
@@ -80,6 +87,7 @@ gedit ~/.bashrc
 
 Append the lines below at the end of the file.
 ```bash
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 source /opt/ros/noetic/setup.bash
 source ~/EEE4610_visual_navigation/devel/setup.bash
 ```
