@@ -1,6 +1,6 @@
 <!-- Launch File for running svo with ceres backend -->
 <launch>
-  <arg name="calib_file" default="$(find rc_main)/param/iphone_calib.yaml"/>
+  <arg name="calib_file" default="$(find rc_main)/param/webcam_calib.yaml"/>
 
   <!-- SVO node -->
   <node pkg="svo_ros" type="svo_node" name="svo" clear_params="true" output="screen" args="--v=0" >

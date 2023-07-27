@@ -1,18 +1,18 @@
-label: "iphone"
+label: "webcam"
 cameras:
 - camera:
     distortion:
       parameters:
         cols: 1
         rows: 4
-        data: [0.085156, -0.182301, 0.000275, -0.000286]
+        data: [-0.175900, -0.060738, 0.003028, -0.001700]
       type: radial-tangential
     image_height: 480
     image_width: 640
     intrinsics:
       cols: 1
       rows: 4
-      data: [497.39115, 497.43358, 321.55645, 233.31475]
+      data: [539.04878, 542.33895, 313.27401, 242.68119]
     label: cam0
     line-delay-nanoseconds: 0
     type: pinhole
