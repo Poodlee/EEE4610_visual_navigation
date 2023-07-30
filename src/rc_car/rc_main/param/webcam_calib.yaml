@@ -25,7 +25,7 @@ cameras:
             0., 0., 0., 1.]
   serial_no: 0
   calib_date: 0
-  description: 'iphone'
+  description: 'webcam'
 
 
 imu_params:
@@ -39,7 +39,7 @@ imu_params:
   sigma_acc_bias_c: 0.0002
   sigma_integration: 0.0
   g: 9.81007
-  imu_rate: 200.0
+  imu_rate: 100.0
 
 imu_initialization:
   velocity: [0, 0, 0]
