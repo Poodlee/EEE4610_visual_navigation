@@ -1,4 +1,5 @@
 <launch>
+  <include file="$(find rc_description)/launch/rsp.launch"/>
   <include file="$(find rc_main)/launch/sensors.launch"/>
   <include file="$(find rc_main)/launch/slam.launch"/>
 
