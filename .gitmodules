@@ -8,3 +8,6 @@
 	path = src/rc_car/gtsam
 	url = https://github.com/sungminner/gtsam
 	branch = EEE4610
+[submodule "src/test/imu_to_odom"]
+	path = src/test/imu_to_odom
+	url = https://github.com/sungminner/imu_to_odom
