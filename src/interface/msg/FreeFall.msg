@@ -1,2 +1,2 @@
 Header header
-bool isFreeFall false
+bool isFreeFall
