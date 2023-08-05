@@ -11,3 +11,6 @@
 [submodule "src/test/imu_to_odom"]
 	path = src/test/imu_to_odom
 	url = https://github.com/sungminner/imu_to_odom
+[submodule "src/rc_car/WiringPi"]
+	path = src/rc_car/WiringPi
+	url = https://github.com/sungminner/WiringPi
