@@ -1,17 +1,30 @@
+#include "interface/FreeFall.h"
 #include "ros/ros.h"
 #include "sensor_msgs/Imu.h"
 
 class FreeFallDetector {
  public:
   FreeFallDetector() {
-    // Topic you want to publish
-    pub_ = n_.advertise<sensor_msgs::Imu>("/imu_pub", 1000);
-
-    // Topic you want to subscribe
+    pub_ = n_.advertise<interface::FreeFall>("/freefall", 1000);
     sub_ = n_.subscribe("/imu/data", 1000, &FreeFallDetector::callback, this);
   }
 
-  void callback(const sensor_msgs::Imu::ConstPtr& msg) { pub_.publish(msg); }
+  void callback(const sensor_msgs::Imu::ConstPtr& msg) {
+    interface::FreeFall freefall_msg;
+    freefall_msg.header = msg->header;
+    freefall_msg.isFreeFall = 0;
+
+    double net_accel =
+        std::sqrt((msg->linear_acceleration.x * msg->linear_acceleration.x) +
+                  (msg->linear_acceleration.y * msg->linear_acceleration.y) +
+                  (msg->linear_acceleration.z * msg->linear_acceleration.z));
+
+    if (net_accel < 5.0) {
+      freefall_msg.isFreeFall = 1;
+    }
+
+    pub_.publish(freefall_msg);
+  }
 
  private:
   ros::NodeHandle n_;
