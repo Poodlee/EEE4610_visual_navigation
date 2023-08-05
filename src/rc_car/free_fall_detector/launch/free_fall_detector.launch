@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="free_fall_detector" type="free_fall_detector_node" name="free_fall_detector_node" />
+</launch>
