@@ -1,6 +1,7 @@
 <launch>
   <include file="$(find rc_description)/launch/rsp.launch"/>
-  <include file="$(find rc_main)/launch/sensors.launch"/>
+  <include file="$(find rc_main)/launch/camera.launch"/>
+  <include file="$(find rc_main)/launch/imu.launch"/>
   <include file="$(find rc_main)/launch/slam.launch"/>
 
   <!-- <node name="rviz" pkg="rviz" type="rviz" args=" -d $(find svo_ros)/rviz_config_gm.rviz" /> -->
