@@ -10,6 +10,7 @@ project(free_fall_detector)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
+  interface
 )
 
 ## System dependencies are found with CMake's conventions
