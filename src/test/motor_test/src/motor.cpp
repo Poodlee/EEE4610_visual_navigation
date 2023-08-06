@@ -6,8 +6,9 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
-#include <math>
+#include <math.h>
 #include <string>
+#include <sstream>
 
 #include "ros/ros.h"
 #include "sensor_msgs/Imu.h"  // Add Topic msg header
@@ -60,35 +61,64 @@ void PWM::pulses(float freq, unsigned long pulses, float duty){
 
 void msgCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
-  ROS_INFO("Received value from imu");
-  angle = asin(msg->orientation.x / 9.8) / 3.141592 * 180;
+  isFreeFall = false;
+  double net_accel =
+      std::sqrt((msg->linear_acceleration.x * msg->linear_acceleration.x) +
+                (msg->linear_acceleration.y * msg->linear_acceleration.y) +
+                (msg->linear_acceleration.z * msg->linear_acceleration.z));
+
+  angle = asin(msg->linear_acceleration.x / 9.8) / 3.141592 * 180;
+  stringstream ss;
+  ss << angle;
+  
+  ROS_INFO("angle: %s", ss.str().c_str());
+  
+  PWM test(16); // 16- > GPIO 16
+
+  if (net_accel < 5.0) {
+    if (start_set == false) {
+      fall_start = std::chrono::system_clock::now();
+      start_set = true;
+    }
+    isFreeFall = true;
+    
+
+    if (angle <= 90 && angle > 5) {
+      test.testing(0.372);
+      test.testing(0.372);
+    }
+    freefalled = true;
+  }
+
+  if (isFreeFall == false && freefalled == true) {
+    if (angle >= -5 && angle <= 5) {
+      fall_end = std::chrono::system_clock::now();
+      std::chrono::milliseconds milli = std::chrono::duration_cast<std::chrono::milliseconds> (fall_end - fall_start);
+      string s = to_string((int)milli.count());
+      
+      ofstream fout;
+      fout.open("/home/ubuntu/result.txt", ios::out | ios::app);
+      if (!fout) {
+        ROS_INFO("Open Failed");
+      }
+      fout << s << "\n";
+      ROS_INFO("Save completed");
+      fout.close();
+      freefalled = false;
+      start_set = false;
+      test.testing(0.172);
+    }
+  }
 }
 
 int main(int argc, char **argv){
   wiringPiSetupGpio(); // Initalize Pi GPIO
-  PWM test(16); // 16- > GPIO 16
-  float trans;
-  std::chrono::system_clock::time_point start, end;
+  // float trans;
 
   ros::init(argc, argv, "motor_control");
   ros::NodeHandle nh;
 
   ros::Subscriber sub = nh.subscribe("/imu/data",100,msgCallback);
-
-  start = std::chrono::system_clock::now();
-
-  if (angle <= 90 && angle > 10) {
-    test.testing(0.372);
-  }
-  if (angle >= -10 && angle <= 10) {
-    end = std::chrono::system_clock::now();
-    std::chrono::milliseconds milli = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
-    string s = to_string(milli.count());
-    ofstream fout;
-    fout.open("result.txt", ios::out | ios::app);
-    fout << s << "\n";
-    ROS_INFO("Save completed");
-  }
 
   ros::spin();
 

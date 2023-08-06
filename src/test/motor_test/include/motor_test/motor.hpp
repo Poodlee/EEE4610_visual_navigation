@@ -8,6 +8,10 @@
 #include <math.h>
 
 double angle;
+std::chrono::system_clock::time_point fall_start, fall_end;
+bool isFreeFall;
+bool freefalled = false;
+bool start_set = false;
 
 class PWM{
   public:
