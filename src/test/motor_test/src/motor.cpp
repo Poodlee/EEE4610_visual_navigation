@@ -6,6 +6,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <math>
 #include <string>
 
 #include "ros/ros.h"
@@ -60,7 +61,7 @@ void PWM::pulses(float freq, unsigned long pulses, float duty){
 void msgCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
   ROS_INFO("Received value from imu");
-  angle = msg->orientation.x;
+  angle = asin(msg->orientation.x / 9.8) / 3.141592 * 180;
 }
 
 int main(int argc, char **argv){
@@ -73,11 +74,13 @@ int main(int argc, char **argv){
   ros::NodeHandle nh;
 
   ros::Subscriber sub = nh.subscribe("/imu/data",100,msgCallback);
-  if (angle <= 90){
-    start = std::chrono::system_clock::now();
+
+  start = std::chrono::system_clock::now();
+
+  if (angle <= 90 && angle > 10) {
     test.testing(0.372);
   }
-  if (angle == 0){
+  if (angle >= -10 && angle <= 10) {
     end = std::chrono::system_clock::now();
     std::chrono::milliseconds milli = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
     string s = to_string(milli.count());
