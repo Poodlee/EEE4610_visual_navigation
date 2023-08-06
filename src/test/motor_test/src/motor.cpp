@@ -1,12 +1,12 @@
 // pwm.cpp
-#include "motor.hpp"
+#include "motor_test/motor.hpp"
 
-#include <string.h>
 #include <unistd.h>
 
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #include "ros/ros.h"
 #include "sensor_msgs/Imu.h"  // Add Topic msg header
@@ -60,30 +60,31 @@ void PWM::pulses(float freq, unsigned long pulses, float duty){
 void msgCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
   ROS_INFO("Received value from imu");
-  angle = msg.orientation.x;
+  angle = msg->orientation.x;
 }
 
 int main(int argc, char **argv){
   wiringPiSetupGpio(); // Initalize Pi GPIO
   PWM test(16); // 16- > GPIO 16
   float trans;
+  std::chrono::system_clock::time_point start, end;
 
   ros::init(argc, argv, "motor_control");
   ros::NodeHandle nh;
 
   ros::Subscriber sub = nh.subscribe("/imu/data",100,msgCallback);
   if (angle <= 90){
-    std::chorono::system_clock::timepoint start = std::chrono::system_clock::now();
+    start = std::chrono::system_clock::now();
     test.testing(0.372);
   }
   if (angle == 0){
-    std::chrono::system_clock::timepoint end = std::chrono::system_clock::now();
+    end = std::chrono::system_clock::now();
     std::chrono::milliseconds milli = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
-    string s = to_string(milli);
+    string s = to_string(milli.count());
     ofstream fout;
-    fout.opeb("result.txt", ios::out | ios::app);
+    fout.open("result.txt", ios::out | ios::app);
     fout << s << "\n";
-    ROS_INFO("%d milli seconds lapsed", milli);
+    ROS_INFO("Save completed");
   }
 
   ros::spin();
