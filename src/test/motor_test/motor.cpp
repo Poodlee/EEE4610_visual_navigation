@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include "ros/ros.h"
 #include "sensor_msgs/Imu.h" // Add Topic msg header
+#include <chrono>
+#include <string.h>
+#include <fstream>
+
 
 using namespace std;
 
@@ -66,10 +70,19 @@ int main(int argc, char **argv){
   ros::NodeHandle nh;
 
   ros::Subscriber sub = nh.subscribe("/imu/data",100,msgCallback);
-  if (angle <= 90)
-  ROS_INFO("Angle under 90 in x");
-    // test.testing(0.372);
-
+  if (angle <= 90){
+    std::chorono::system_clock::timepoint start = std::chrono::system_clock::now();
+    test.testing(0.372);
+  }
+  if (angle == 0){
+    std::chrono::system_clock::timepoint end = std::chrono::system_clock::now();
+    std::chrono::milliseconds milli = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
+    string s = to_string(milli);
+    ofstream fout;
+    fout.opeb("result.txt", ios::out | ios::app);
+    fout << s << "\n";
+    ROS_INFO("%d milli seconds lapsed", milli);
+  }
 
   ros::spin();
 
