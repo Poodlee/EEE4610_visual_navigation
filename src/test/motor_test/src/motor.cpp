@@ -1,6 +1,6 @@
 // pwm.cpp
 #include "motor_test/motor.hpp"
-
+#include "motor_test/imu_uart.hpp"
 #include <unistd.h>
 
 #include <chrono>
@@ -70,9 +70,9 @@ void msgCallback(const sensor_msgs::Imu::ConstPtr& msg)
   angle = asin(msg->linear_acceleration.x / 9.8) / 3.141592 * 180;
   stringstream ss;
   ss << angle;
-  
+
   ROS_INFO("angle: %s", ss.str().c_str());
-  
+
   PWM test(16); // 16- > GPIO 16
 
   if (net_accel < 5.0) {
@@ -81,7 +81,7 @@ void msgCallback(const sensor_msgs::Imu::ConstPtr& msg)
       start_set = true;
     }
     isFreeFall = true;
-    
+
 
     if (angle <= 90 && angle > 5) {
       test.testing(0.372);
@@ -95,7 +95,7 @@ void msgCallback(const sensor_msgs::Imu::ConstPtr& msg)
       fall_end = std::chrono::system_clock::now();
       std::chrono::milliseconds milli = std::chrono::duration_cast<std::chrono::milliseconds> (fall_end - fall_start);
       string s = to_string((int)milli.count());
-      
+
       ofstream fout;
       fout.open("/home/ubuntu/result.txt", ios::out | ios::app);
       if (!fout) {
@@ -114,13 +114,16 @@ void msgCallback(const sensor_msgs::Imu::ConstPtr& msg)
 int main(int argc, char **argv){
   wiringPiSetupGpio(); // Initalize Pi GPIO
   // float trans;
+  char * result = setting();
+  std::cout << result[0] << " " << result[1] << " " << result[2] << " " << result[3] << " "<< result[4] << " ";
+  // ros::init(argc, argv, "motor_control");
+  // ros::NodeHandle nh;
 
-  ros::init(argc, argv, "motor_control");
-  ros::NodeHandle nh;
+  // ros::Subscriber sub = nh.subscribe("/imu/data",100,msgCallback);
 
-  ros::Subscriber sub = nh.subscribe("/imu/data",100,msgCallback);
+  // ros::spin();
 
-  ros::spin();
+
 
   return 0;
   // while(1){
