@@ -59,6 +59,7 @@ char * setting() {
 
   unsigned char checksum = 0;
  // https://codebeautify.org/xor-calculator ( ~Front 2A)
+ // Capital? lower?
   unsigned char msg[] = { 0x40,0x76,0x65,0x72,0x73,0x69,0x6F,0x6E,0x2A,0x33,0x41,0x0D,0x0A};
 
   // 7. Transmission code
