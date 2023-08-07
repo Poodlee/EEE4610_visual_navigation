@@ -58,15 +58,8 @@ char * setting() {
   }
 
   unsigned char checksum = 0;
- // Transmittion data (3rd item: servo ID)
-  unsigned char msg[] = { 0x40,0x76,0x65,0x72,0x73,0x69,0x6F,0x6E,0x2A,0,0x0D,0x0A};
-
-  for (int i=0; i<9;i++){
-    checksum += msg[i];
-  }
-  // 6. Buffer Writing
-  checksum = ~ checksum;
-  msg[9] = checksum;
+ // https://codebeautify.org/xor-calculator ( ~Front 2A)
+  unsigned char msg[] = { 0x40,0x76,0x65,0x72,0x73,0x69,0x6F,0x6E,0x2A,0x33,0x41,0x0D,0x0A};
 
   // 7. Transmission code
   write(serial_port, msg, sizeof(msg));
