@@ -5,7 +5,7 @@
     "python.analysis.extraPaths": [
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
-    "cmake.sourceDirectory": "/home/seongmin/EEE4610_visual_navigation/build/catkin_tools_prebuild",
+    "cmake.sourceDirectory": "/home/minipins/EEE4610_visual_navigation/src",
     "files.associations": {
         "*.ipp": "cpp",
         "chrono": "cpp",
