@@ -17,14 +17,14 @@ sensor_msgs::Imu parse_imu(char* data) {
   char rpy[3][6] {0}; // initialize to 0
   int digit = 0;
   int j = 0;
-  for (int i=0; i<sizeof(data); i++) {
-    if (data[i] == ',') {
+  for (int i=0; i<30; i++) {
+    if (data[i + 8] == ',') { // starts from i + 8 to discard first few characters
       j++;
       digit = 0;
       continue;
     }
-    if (data[i] == '*') break; // end of rpy data
-    rpy[j][digit] = data[i];
+    if (data[i + 8] == '*') break; // end of rpy data
+    rpy[j][digit] = data[i + 8];
     digit++;
   }
 
