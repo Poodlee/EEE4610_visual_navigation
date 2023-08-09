@@ -1,16 +1,14 @@
-#include <cstdio>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h> // write(), read(), close()
-#include <termios.h> // Contains POSIX terminal control definitions
-#include <fcntl.h> // Contains file controls like O_RDWR
-#include <errno.h> //Error integer and strerror() function
-
-#include <cstdlib> // parsing char* data
-
 #include "imu_driver/imu_uart.hpp"
+
+#include <errno.h>  //Error integer and strerror() function
+#include <fcntl.h>  // Contains file controls like O_RDWR
 #include <sensor_msgs/Imu.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <termios.h>  // Contains POSIX terminal control definitions
+#include <unistd.h>   // write(), read(), close()
+
+#include <cstdio>
 
 sensor_msgs::Imu parse_imu(char* data) {
   sensor_msgs::Imu result;
