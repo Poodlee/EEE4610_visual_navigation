@@ -1,5 +1,4 @@
-#include "imu_uart.hpp"
-
+#include <cstdio>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -8,19 +7,42 @@
 #include <fcntl.h> // Contains file controls like O_RDWR
 #include <errno.h> //Error integer and strerror() function
 
+#include <cstdlib> // parsing char* data
 
-char * read_result() {
- char * result = (char *)malloc(sizeof(char) * 150);
- for (int j=1;j<27;j++)
-  result[j] = 0;
+#include "imu_uart.hpp"
+#include "sensor_msgs/Imu.h"
 
+sensor_msgs::Imu parse_imu(char* data) {
+  sensor_msgs::Imu result;
+  char* rpy[3][6] {0}; // initialize to 0
+  int digit = 0;
+  int j = 0;
+  for (int i=0; i<sizeof(data); i++) {
+    if (data[i] == ',') {
+      j++;
+      digit = 0;
+      continue;
+    }
+    if (data[i] == '*') break; // end of rpy data
+    rpy[j][digit] = data[i];
+    digit++;
+  }
+
+  result.angular.x = atof(rpy[0]); // roll
+  result.angular.y = atof(rpy[1]); // pitch
+  result.angular.z = atof(rpy[2]); // yaw
+
+  return result;
+}
+
+sensor_msgs::Imu read_result() {
   int serial_port = open("/dev/ttyACM0", O_RDWR);
   // Create new termios struct, we call it 'tty' for convention
   struct termios tty;
 
   // Read in existing settings, and handle any error
   if(tcgetattr(serial_port, &tty) != 0) {
-    //   printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+    std::printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
   }
 
   tty.c_cflag &= ~PARENB; // Clear parity bit, disabling parity (most common)
@@ -52,26 +74,20 @@ char * read_result() {
 
   // Save tty settings, also checking for error
   if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
-    // printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
+    std::printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
   }
 
   // Allocate memory for read buffer, set size according to your needs
-  char read_buf [27];
+  char read_buf[30]{0}; // initialize with 0
 
   int num_bytes = read(serial_port, &read_buf, sizeof(read_buf));
 
   // n is the number of bytes read. n may be 0 if no bytes were received, and can also be -1 to signal an error.
   if (num_bytes < 0) {
-    //   printf("Error reading: %s", strerror(errno));
+    std::printf("Error reading: %s", strerror(errno));
   }
-
-  for (int i=0; i<150;i++){
-    result[i] = read_buf[i];
-  }
-
 
   close(serial_port);
 
-
- return result;
+  return parse_imu(read_buf);
 }
