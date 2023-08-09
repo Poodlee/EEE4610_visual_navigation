@@ -9,12 +9,12 @@
 
 #include <cstdlib> // parsing char* data
 
-#include "imu_uart.hpp"
-#include "sensor_msgs/Imu.h"
+#include "imu_driver/imu_uart.hpp"
+#include <sensor_msgs/Imu.h>
 
 sensor_msgs::Imu parse_imu(char* data) {
   sensor_msgs::Imu result;
-  char* rpy[3][6] {0}; // initialize to 0
+  char rpy[3][6] {0}; // initialize to 0
   int digit = 0;
   int j = 0;
   for (int i=0; i<sizeof(data); i++) {
@@ -28,9 +28,9 @@ sensor_msgs::Imu parse_imu(char* data) {
     digit++;
   }
 
-  result.angular.x = atof(rpy[0]); // roll
-  result.angular.y = atof(rpy[1]); // pitch
-  result.angular.z = atof(rpy[2]); // yaw
+  result.angular_velocity.x = atof(rpy[0]); // roll
+  result.angular_velocity.y = atof(rpy[1]); // pitch
+  result.angular_velocity.z = atof(rpy[2]); // yaw
 
   return result;
 }
