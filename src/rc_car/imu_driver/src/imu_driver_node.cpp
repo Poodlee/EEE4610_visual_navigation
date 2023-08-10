@@ -10,7 +10,9 @@ int main(int argc, char** argv) {
 
   while (ros::ok()) {
     sensor_msgs::Imu imu_data = read_result();
-    imu_pub.publish(imu_data);
+    if (imu_data.header.seq != -1) {
+      imu_pub.publish(imu_data);
+    }
 
     ros::spinOnce();
   }
